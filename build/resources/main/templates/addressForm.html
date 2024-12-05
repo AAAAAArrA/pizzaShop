@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New Address</title>
+</head>
+<body>
+
+<div th:replace="header :: head"></div>
+<div th:replace="header :: header"></div>
+
+<div class="container">
+<h3>Address:</h3>
+
+<form th:method="POST" th:action="@{/users/new-address}" th:object="${address}">
+
+<div class="m-3">
+    <div class="form-group row">
+        <label class="col-form-label col-sm-4">Enter town:</label>
+        <div class="col-sm-4">
+            <input type="text" th:field="${address.town}" class="form-control" required />
+        </div>
+    </div>
+</div>
+
+<div class="m-3">
+    <div class="form-group row">
+        <label class="col-form-label col-sm-4">Enter street:</label>
+        <div class="col-sm-4">
+            <input type="text" th:field="${address.street}" class="form-control" required />
+        </div>
+    </div>
+</div>
+
+<div class="m-3">
+    <div class="form-group row">
+        <label class="col-form-label col-sm-4">Enter house number:</label>
+        <div class="col-sm-4">
+            <input type="text" th:field="${address.houseNumber}" class="form-control" required />
+        </div>
+    </div>
+</div>
+
+<div class="m-3">
+    <div class="form-group row">
+        <label class="col-form-label col-sm-4">Enter postal code:</label>
+        <div class="col-sm-4">
+            <input type="text" th:field="${address.postalCode}" class="form-control" required />
+        </div>
+    </div>
+</div>
+
+<div class="text-center p-3">
+    <div>
+        <button type="submit" class="btn btn-primary">Create</button>
+    </div>
+</div>
+</form>
+</div>
+</body>
+</html>

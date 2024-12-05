@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Pizza Menu</title>
+    <link th:href="@{~/styles.css}" rel="stylesheet">
+</head>
+<body>
+
+<div th:replace="header :: head"></div>
+<div th:replace="header :: header"></div>
+
+<div class="container">
+    <h1>Pizza Menu</h1>
+
+    <br>
+
+    <div class="row">
+
+        <div th:each="pizza : ${pizzas}" class="col-md-4" style="margin-bottom: 20px">
+            <div class="card">
+                <a th:href="@{/menu/{id}(id=${pizza.id})}">
+                    <img th:src="'data:image/jpeg;base64,' + ${pizza.getImage()}" class="card-img-top" alt="...">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${pizza.getName()}">Card title</h5>
+                    <p class="card-text">
+                        <select th:name="'size-' + ${pizza.id}">
+                            <option value="SMALL" th:text="'Small | ' + ${pizza.priceSmall}"></option>
+                            <option value="MEDIUM" th:text="'Medium | ' + ${pizza.priceMedium}"></option>
+                            <option value="LARGE" th:text="'Large | ' + ${pizza.priceLarge}"></option>
+                        </select>
+                    </p>
+                    <a sec:authorize="hasAnyAuthority('products:write')" th:href="@{'/menu/delete/' + ${pizza.id}}" class="btn btn-primary" >Delete</a>
+                    <a sec:authorize="hasAnyAuthority('products:write')" th:href="@{'/menu/edit/' + ${pizza.id}}" class="btn btn-primary" >Update</a>
+                    <a sec:authorize="hasAnyAuthority('bucket_write')" th:onclick="'addToCart(' + ${pizza.id} + ')'" class="btn btn-primary" >Add to cart</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script th:inline="javascript">
+    function addToCart(pizzaId) {
+        // Ваша логика для добавления пиццы в корзину по pizzaId
+        console.log('Добавить пиццу в корзину с id: ' + pizzaId);
+
+        // Для примера, добавим пиццу в корзину с помощью AJAX запроса
+        var pizzaSize = document.querySelector('select[name="size-' + pizzaId + '"]').value;
+        var pizzaQuantity = 1;
+        var pizza = {
+            id: pizzaId,
+            size: pizzaSize,
+            quantity: pizzaQuantity
+        };
+
+        console.log(pizzaSize)
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'menu/bucket/' + pizzaId + '?size=' + pizzaSize + '&amount=1' , true);
+
+        // add query params
+
+
+
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send();
+
+        xhr.onload = function() {
+            if (xhr.status != 200) {
+                console.log('Ошибка ' + xhr.status + ': ' + xhr.statusText);
+            } else {
+                console.log('Пицца добавлена в корзину');
+            }
+        };
+    }
+</script>
+</body>
+</html>

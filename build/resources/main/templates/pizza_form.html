@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>product Form</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body style="margin: 0; padding: 0">
+
+<div th:replace="header :: header"></div>
+<div th:replace="header :: head"></div>
+
+
+<div class="container text-center">
+    <div th:if="${pizza.id == null}"><h1>Add new Product</h1></div>
+    <div th:unless="${pizza.id == null}"><h1>Edit Product</h1></div>
+    <form th:method="POST" th:action="@{/menu/save}" th:object="${pizza}" enctype="multipart/form-data"
+          style="max-width: 600px; margin: 0 auto;">
+        <input type="hidden" th:field="*{id}" th:value="${pizza.id}"/>
+        <div class="m-3">
+            <div class="form-group row">
+                <label class="col-form-label col-sm-4">Enter name</label>
+                <div class="col-sm-4">
+                    <input type="text" th:field="${pizza.name}" class="form-control" required />
+                </div>
+            </div>
+        </div>
+        <div class="m-3">
+            <div class="form-group row">
+                <label class="col-form-label col-sm-4">Enter price for size LARGE:</label>
+                <div class="col-sm-4">
+                    <input type="number" step="0.01" th:field="${pizza.priceLarge}" class="form-control" required />
+                </div>
+            </div>
+        </div>
+        <div class="m-3">
+            <div class="form-group row">
+                <label class="col-form-label col-sm-4">Enter price for size MEDIUM:</label>
+                <div class="col-sm-4">
+                    <input type="number" step="0.01" th:field="${pizza.priceMedium}" class="form-control" required />
+                </div>
+            </div>
+        </div>
+        <div class="m-3">
+            <div class="form-group row">
+                <label class="col-form-label col-sm-4">Enter price for size SMALL:</label>
+                <div class="col-sm-4">
+                    <input type="number" step="0.01" th:field="${pizza.priceSmall}" class="form-control" required />
+                </div>
+            </div>
+        </div>
+        <div class="m-3">
+            <div class="form-group row" >
+                <label class="col-form-label col-sm-4">Select photo:</label>
+                <div class="col-sm-4">
+                    <input type="file" name="file" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="text-center p-3">
+            <div th:if="${pizza.id == null}">
+                <button type="submit" class="btn btn-primary">Create</button>
+            </div>
+            <div th:unless="${pizza.id == null}">
+                <button type="submit" class="btn btn-primary">Update</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:tr="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Bucket</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+</head>
+<body>
+<!--<div th:insert="~{menu.html :: nav-menu}"></div>-->
+
+<div th:replace="header::header"></div>
+<div th:replace="header::head"></div>
+
+<div class="container text-center">
+    <div class="text-start"><h1>Your bucket</h1></div>
+    <div>
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>Title</th>
+                <th>Amount</th>
+                <th>Price</th>
+                <th>Sum</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr:block>
+                <tr th:each="I : ${cart.cartDetails}">
+                    <td th:text="${I.title}"></td>
+                    <td th:text="${I.amount}"></td>
+                    <td th:text="${I.price}"></td>
+                    <td th:text="${I.sum}"></td>
+                    <td>
+                        <a th:href="@{'/cart/delete/' + ${I.pizzaId}}">Remove</a>
+                    </td>
+                </tr>
+            </tr:block>
+            </tbody>
+        </table>
+
+        <hr>
+
+        <h3 class="text-end">Total    <b th:text="${cart.sum}">1000</b></h3>
+
+        <form style="justify-content: end; display:flex;" th:action="@{/cart}" method="post">
+            <button class="btn btn-success" type="submit">Create Order</button>
+        </form>
+    </div>
+</div>
+
+
+</body>
+</html>

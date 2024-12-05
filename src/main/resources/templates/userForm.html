@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>product Form</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body>
+<!--<div th:insert="~{menu.html :: nav-menu}"></div>-->
+<div class="container text-center">
+    <form th:method="POST" th:action="@{/users/new}" th:object="${user}" enctype="multipart/form-data"
+          style="max-width: 600px; margin: 0 auto;">
+
+        <div class="m-3">
+            <div class="form-group row">
+                <label class="col-form-label col-sm-4">Enter Name</label>
+                <div class="col-sm-4">
+                    <input type="text" th:field="${user.login}" class="form-control" required />
+                </div>
+            </div>
+        </div>
+        <div class="m-3">
+            <div class="form-group row">
+                <label class="col-form-label col-sm-4">Enter password:</label>
+                <div class="col-sm-4">
+                    <input type="password" th:field="${user.password}" class="form-control" required />
+                </div>
+            </div>
+        </div>
+        <div class="m-3">
+            <div class="form-group row">
+                <label class="col-form-label col-sm-4">Enter Matching password:</label>
+                <div class="col-sm-4">
+                    <input type="password" th:field="${user.passwordMatching}" class="form-control" required />
+                </div>
+            </div>
+        </div>
+
+        <h3>Address:</h3>
+
+        <div class="m-3">
+            <div class="form-group row">
+                <label class="col-form-label col-sm-4">Enter town:</label>
+                <div class="col-sm-4">
+                    <input type="text" th:field="${address.town}" class="form-control" required />
+                </div>
+            </div>
+        </div>
+
+        <div class="m-3">
+            <div class="form-group row">
+                <label class="col-form-label col-sm-4">Enter street:</label>
+                <div class="col-sm-4">
+                    <input type="text" th:field="${address.street}" class="form-control" required />
+                </div>
+            </div>
+        </div>
+
+        <div class="m-3">
+            <div class="form-group row">
+                <label class="col-form-label col-sm-4">Enter house number:</label>
+                <div class="col-sm-4">
+                    <input type="text" th:field="${address.houseNumber}" class="form-control" required />
+                </div>
+            </div>
+        </div>
+
+        <div class="m-3">
+            <div class="form-group row">
+                <label class="col-form-label col-sm-4">Enter postal code:</label>
+                <div class="col-sm-4">
+                    <input type="text" th:field="${address.postalCode}" class="form-control" required />
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center p-3">
+            <div>
+                <button type="submit" class="btn btn-primary">Create</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+
+</div>
+</body>
+</html>

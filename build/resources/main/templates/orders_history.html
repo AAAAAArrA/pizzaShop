@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Order History</title>
+  <!-- Ваши стили и скрипты -->
+</head>
+<body>
+<div>
+  <h2>Order History</h2>
+  <div th:each="order : ${orders}">
+    <p th:text="${order.created}">Date</p>
+    <p th:text="${order.summ}">Total Sum</p>
+    <!-- Детали заказа -->
+  </div>
+</div>
+</body>
+</html>

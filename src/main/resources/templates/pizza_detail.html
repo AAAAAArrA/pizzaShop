@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pizza detail</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link th:href="@{~/styles.css}" rel="stylesheet">
+</head>
+<body>
+
+<div th:replace="header :: head"></div>
+<div th:replace="header :: header"></div>
+
+<!--pizza details-->
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+<!--            <img src="https://cdn.pixabay.com/photo/2017/12/09/08/18/pizza-3007395_960_720.jpg" alt="Pizza" width="100%">-->
+            <img th:src="'data:image/jpeg;base64,' + ${pizza.getImage()}" alt="Pizza" width="100%"/>
+        </div>
+        <div class="col-md-6 m-auto text-center">
+            <h2 th:text="${pizza.getName()}"></h2>
+            <p>Preises:</p>
+<!--            <p>Large: <b th:text='${pizza.getPriceLarge()}'></b></p>-->
+<!--            <p>Medium: <b th:text='${pizza.getPriceMedium()}'></b></p>-->
+<!--            <p>Small: <b th:text='${pizza.getPriceSmall()}'></b></p>-->
+            <div class="col-md-3 m-auto">
+                <div class="form-check">
+                <input class="form-check-input" type="radio" name="size" id="LARGE">
+                <label class="form-check-label" for="LARGE">
+                    Large: <b th:text='${pizza.getPriceLarge()}'></b>
+                </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="size" id="MEDIUM" checked>
+                    <label class="form-check-label" for="MEDIUM">
+                        Medium: <b th:text='${pizza.getPriceMedium()}'></b>
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="size" id="SMALL">
+                    <label class="form-check-label" for="SMALL">
+                        Small: <b th:text='${pizza.getPriceSmall()}'></b>
+                    </label>
+                </div>
+            </div>
+
+            <br>
+
+            <div class="col-md-5 m-auto">
+                <div class="input-group input-group-sm mb-3 col-md-4" >
+                    <span class="input-group-text" id="inputGroup-sizing-sm">Quantity</span>
+                    <input type="number" min="1" step="1" name="quantity" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                </div>
+            </div>
+
+            <button type="button" th:onclick="'addToCart('+ ${pizza.id} +')'" class="btn btn-outline-primary me-2">In den Warenkorb</button>
+        </div>
+    </div>
+</div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+<script>
+    function addToCart(id) {
+        var pizzaSize = document.querySelector('input[name="size"]:checked').id;
+        var pizzaQuantity = document.querySelector('input[name="quantity"]').value;
+
+        console.log(pizzaSize);
+        console.log(pizzaQuantity);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/menu/bucket/' + id + '?size=' + pizzaSize + '&amount=' + pizzaQuantity, true);
+
+        xhr.send();
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                console.log(xhr.responseText);
+                
+            }
+        }
+    }
+</script>
+
+</body>
+</html>

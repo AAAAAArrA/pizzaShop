@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:columns="http://www.w3.org/1999/xhtml"
+      xmlns:tr="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Users</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div th:replace="header :: head"></div>
+<div th:replace="header :: header"></div>
+<!--<div th:insert="~{menu.html :: nav-menu}"></div>-->
+<div class="container text-center">
+  <div><h1>User List</h1></div>
+
+  <div>
+    <table class="table table-bordered">
+      <thead class="thead-dark">
+      <tr>
+        <th>Full Name</th>
+        <th>role</th>
+        <th>Address</th>
+
+        <th></th>
+<!--        <th></th>-->
+      </tr>
+      </thead>
+      <tbody>
+      <tr:block>
+        <tr th:each="I : ${users}">
+          <td th:text="${I.login}"></td>
+          <td th:text="${I.role}"></td>
+          <td>
+            <div th:each="address : ${I.deliveryAddresses}">
+              <p th:text="${address.street + ', ' + address.housenNumber + ', ' + address.town + ', ' + address.postalCode}"></p>
+            </div>
+          </td>
+          <td>
+            <a th:href="@{'/admin/delete-user/' + ${I.id}}">Delete</a>
+          </td>
+<!--          <td>-->
+<!--            <a th:href="@{'/users/edit/' + ${I.id}}">Update</a>-->
+<!--          </td>-->
+        </tr>
+      </tr:block>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>

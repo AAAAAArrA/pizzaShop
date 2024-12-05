@@ -1,0 +1,182 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>User Profile</title>-->
+<!--    &lt;!&ndash; Ваши стили и скрипты &ndash;&gt;-->
+<!--</head>-->
+<!--<body>-->
+<!--<div th:object="${user}">-->
+<!--    <h2>User Profile</h2>-->
+<!--    <form th:action="@{/profile/update}" method="post">-->
+<!--        <div>-->
+<!--            <label>Login: </label>-->
+<!--            <input type="text" th:field="*{login}" />-->
+<!--        </div>-->
+<!--        <div>-->
+<!--            <label>Password: </label>-->
+<!--            <input type="password" th:field="*{password}" />-->
+<!--        </div>-->
+
+<!--        <div>-->
+<!--            <h3>Delivery Addresses</h3>-->
+<!--            <div th:each="address, iterStat : *{deliveryAddresses}">-->
+<!--                <div>-->
+<!--                    <label th:text="'Address ' + ${iterStat.count}">Address 1</label>-->
+<!--                    <textarea th:field="*{deliveryAddresses[__${iterStat.index}__].street}" placeholder="Street"></textarea>-->
+<!--                    <input type="text" th:field="*{deliveryAddresses[__${iterStat.index}__].houseNumber}" placeholder="House Number" />-->
+<!--                    <input type="text" th:field="*{deliveryAddresses[__${iterStat.index}__].town}" placeholder="Town" />-->
+<!--                    <input type="text" th:field="*{deliveryAddresses[__${iterStat.index}__].postalCode}" placeholder="Postal Code" />-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div>-->
+<!--            <button type="submit">Update Profile</button>-->
+<!--        </div>-->
+<!--    </form>-->
+<!--    <a th:href="@{/orders/history}" class="btn">Order History</a>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+
+    <script src=
+                    "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    </script>
+    <script src=
+                    "https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js">
+    </script>
+</head>
+<body>
+
+<div th:replace="header :: head"></div>
+<div th:replace="header :: header"></div>
+
+<div class="container">
+    <h2>
+        Welcome, <span th:text="${#authentication.principal.username}"></span>
+    </h2>
+
+    <br>
+
+    <h4 th:text="${balance}"  ></h4>
+
+    <br>
+    <h2>Change password</h2>
+
+    <form method="post">
+
+        <input type="hidden" th:value="${#authentication.principal.username}" class="form-control" name="login" id="exampleInputEmail1" placeholder="Enter new login">
+        <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" name="password" id="exampleInputPassword1" placeholder="Password">
+        </div>
+        <div class="form-group">
+            <label for="passwordMatching">Confirm password</label>
+            <input type="password" class="form-control" name="passwordMatching" id="passwordMatching" placeholder="Password">
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+
+    <hr>
+
+    <div class="table-title">
+        <div class="row" style="justify-content: space-between">
+            <div class="col-sm-10"><h2>Address <b>Details</b></h2></div>
+            <div class="col-sm-2">
+                <a href="new-address">
+                    <button type="button" style="width: 100%" class="btn btn-success add-new"><i class="fa fa-plus"></i> Add New</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+<!--  if user has choosen address  -->
+    <div th:if="${user.getAddress() != null}">
+        <h2>Active address</h2>
+
+        Town: <b th:text="${user.getAddress().town}"></b><br>
+        Street: <b th:text="${user.getAddress().street}"></b><br>
+        House number: <b th:text="${user.getAddress().houseNumber}"></b><br>
+        Postal code: <b th:text="${user.getAddress().postalCode}"></b>
+    </div>
+
+    <h2>
+        Delivery Addresses
+    </h2>
+
+    <table class="table table-bordered">
+
+        <thead class="thead-dark">
+        <tr>
+            <th>Street</th>
+            <th>House number</th>
+            <th>Town</th>
+            <th>Postal code</th>
+            <th>Choose</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="address : ${user.getAddresses()}">
+            <td th:text="${address.street}"></td>
+            <td th:text="${address.houseNumber}"></td>
+            <td th:text="${address.town}"></td>
+            <td th:text="${address.postalCode}"></td>
+            <td>
+
+                <a th:href="@{/profile/address/choose/{id}(id=${address.id})}" class="btn btn-success btn-sm">Choose</a>
+            </td>
+        </tr>
+
+        </tbody>
+
+    </table>
+
+    <h2>Order Details</h2>
+
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+        <tr>
+            <th>Date</th>
+            <th>Sum</th>
+            <th>Details</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="order : ${orders}">
+            <tr>
+                <td th:text="${#temporals.format(order.created, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td th:text="${order.summ}"></td>
+                <td> <!-- Empty cell for alignment, or you can put something else here -->
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3"> <!-- colspan to span across all columns -->
+                    <table class="table table-striped">
+                        <tbody>
+                        <tr th:each="detail : ${order.details}">
+                            <td th:text="${detail.pizza.getName()} + ' (' + ${detail.getSize()} + ')'"></td>
+                            <td th:text="${detail.amount}"></td>
+                            <td th:text="${detail.price}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+
+
+</div>
+
+</body>
+</html>
+
