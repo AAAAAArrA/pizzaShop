@@ -7,7 +7,6 @@ import com.example.toktoralieva_orozbekova_duishenaliev.pizza.model.DeliveryAddr
 import com.example.toktoralieva_orozbekova_duishenaliev.pizza.model.User;
 import com.example.toktoralieva_orozbekova_duishenaliev.pizza.repositories.UserRepository;
 import com.example.toktoralieva_orozbekova_duishenaliev.pizza.services.UserService;
-import org.apache.tomcat.jni.Address;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -66,47 +65,49 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public List<User> allUsers(){
+    public List<User> allUsers() {
         return userRepository.findAll();
     }
+
     @Override
-    public void delete(Long id){
+    public void delete(Long id) {
         userRepository.deleteById(id);
     }
+
     @Override
-    public User findUser(String login){
+    public User findUser(String login) {
 
         return userRepository.findByLogin(login);
     }
 
     @Override
     @Transactional
-    public void updateProfile(UserDTO dto){
+    public void updateProfile(UserDTO dto) {
         User savedUser = userRepository.findByLogin(dto.getLogin());
-        if(savedUser == null){
+        if (savedUser == null) {
             throw new RuntimeException("User not found " + dto.getLogin());
         }
         boolean isChanged = false;
 
-        if(dto.getPassword() != null && !dto.getPassword().isEmpty()){
+        if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
             savedUser.setPassword(passwordEncoder.encode(dto.getPassword()));
             isChanged = true;
         }
 
-        if(!Objects.equals(dto.getLogin(), savedUser.getLogin())){
+        if (!Objects.equals(dto.getLogin(), savedUser.getLogin())) {
             savedUser.setLogin(dto.getLogin());
             isChanged = true;
         }
 
-        if(isChanged){
+        if (isChanged) {
             userRepository.save(savedUser);
         }
     }
+
     @Override
-    public void save(User user){
+    public void save(User user) {
         userRepository.save(user);
     }
-
 
 
 }

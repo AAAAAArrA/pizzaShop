@@ -19,21 +19,23 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
-public class    SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private  CustomUserDetailsService userDetailsService;
+    private final CustomUserDetailsService userDetailsService;
+
     @Autowired
     public SecurityConfig(@Qualifier("userDetailsServiceImpl") CustomUserDetailsService userDetailsService) {
 
         this.userDetailsService = userDetailsService;
     }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(daoAuthenticationProvider());
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(12);
     }
 
@@ -43,13 +45,13 @@ public class    SecurityConfig extends WebSecurityConfigurerAdapter {
                 // Permit all requests to the H2 console
                 .authorizeRequests()
                 .antMatchers("/h2-console/**").permitAll()
-                .antMatchers("/", "/users/new","/users/profile","/products/page/**").permitAll()
-                .antMatchers(HttpMethod.GET,"/menu/**").hasAuthority(Permission.PRODUCTS_READ.getPermission())
-                .antMatchers(HttpMethod.POST,"/menu/**").hasAuthority(Permission.PRODUCTS_WRITE.getPermission())
-                .antMatchers(HttpMethod.GET,"/users/delete/**").hasAuthority(Permission.USERS_WRITE.getPermission())
-                .antMatchers(HttpMethod.GET,"/users/").hasAuthority(Permission.USERS_READ.getPermission())
-                .antMatchers(HttpMethod.POST,"/users/profile").hasAuthority(Permission.USERS_READ.getPermission())
-                .antMatchers(HttpMethod.POST,"/users/**").hasAuthority(Permission.USERS_WRITE.getPermission())
+                .antMatchers("/", "/users/new", "/users/profile", "/products/page/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/menu/**").hasAuthority(Permission.PRODUCTS_READ.getPermission())
+                .antMatchers(HttpMethod.POST, "/menu/**").hasAuthority(Permission.PRODUCTS_WRITE.getPermission())
+                .antMatchers(HttpMethod.GET, "/users/delete/**").hasAuthority(Permission.USERS_WRITE.getPermission())
+                .antMatchers(HttpMethod.GET, "/users/").hasAuthority(Permission.USERS_READ.getPermission())
+                .antMatchers(HttpMethod.POST, "/users/profile").hasAuthority(Permission.USERS_READ.getPermission())
+                .antMatchers(HttpMethod.POST, "/users/**").hasAuthority(Permission.USERS_WRITE.getPermission())
                 .antMatchers("/cart/**").hasAuthority(Permission.BUCKET_WRITE.getPermission())
                 .and()
                 // Permit all other requests
@@ -72,8 +74,9 @@ public class    SecurityConfig extends WebSecurityConfigurerAdapter {
                 // Disable frame options to allow H2 console to be accessed
                 .headers().frameOptions().disable();
     }
+
     @Bean
-    protected DaoAuthenticationProvider daoAuthenticationProvider(){
+    protected DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         daoAuthenticationProvider.setUserDetailsService(userDetailsService);

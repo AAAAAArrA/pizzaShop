@@ -1,6 +1,5 @@
 package com.example.toktoralieva_orozbekova_duishenaliev.pizza.model;
 
-
 import lombok.*;
 
 import javax.persistence.Column;
@@ -26,5 +25,4 @@ public class Pizza extends BaseEntity {
     @Lob
     @Column(columnDefinition = "MEDIUMBLOB")
     private String image;
-
 }

@@ -34,7 +34,6 @@ public class CartDetails extends BaseEntity{
         this.cart = cart;
         this.pizza = pizza;
         this.amount = amount;
-
-//        this.price = new BigDecimal(String.valueOf(pizza.getPrice()));
+        //        this.price = new BigDecimal(String.valueOf(pizza.getPrice()));
     }
 }

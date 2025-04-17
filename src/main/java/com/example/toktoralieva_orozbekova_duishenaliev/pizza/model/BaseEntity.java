@@ -1,8 +1,5 @@
 package com.example.toktoralieva_orozbekova_duishenaliev.pizza.model;
 
-
-
-
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;

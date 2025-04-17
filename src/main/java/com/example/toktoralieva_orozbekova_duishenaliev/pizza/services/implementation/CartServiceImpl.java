@@ -2,7 +2,6 @@ package com.example.toktoralieva_orozbekova_duishenaliev.pizza.services.implemen
 
 import com.example.toktoralieva_orozbekova_duishenaliev.pizza.dto.CartDTO;
 import com.example.toktoralieva_orozbekova_duishenaliev.pizza.dto.CartDetailsDTO;
-import com.example.toktoralieva_orozbekova_duishenaliev.pizza.dto.PayActionResponseDTO;
 import com.example.toktoralieva_orozbekova_duishenaliev.pizza.dto.PizzaDTO;
 import com.example.toktoralieva_orozbekova_duishenaliev.pizza.model.*;
 import com.example.toktoralieva_orozbekova_duishenaliev.pizza.model.enums.Size;
@@ -12,18 +11,13 @@ import com.example.toktoralieva_orozbekova_duishenaliev.pizza.repositories.Pizza
 import com.example.toktoralieva_orozbekova_duishenaliev.pizza.services.CartService;
 import com.example.toktoralieva_orozbekova_duishenaliev.pizza.services.CustomUserService;
 import com.example.toktoralieva_orozbekova_duishenaliev.pizza.services.OrderService;
-import com.example.toktoralieva_orozbekova_duishenaliev.pizza.model.Order;
-
-
 import com.example.toktoralieva_orozbekova_duishenaliev.pizza.services.SmmpService;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -63,21 +57,11 @@ public class CartServiceImpl implements CartService {
         return cartRepository.save(cart);
     }
 
-//    @Override
-//    public List<Pizza> getCollectRefPizzasById(List<Long> productIds) {
-//        return productIds.stream()
-//                //getOne вытаскивает ссылку на объект, а findById - сам объект
-//                .map(pizzaRepository::getOne)
-//                .collect(Collectors.toList());
-//    }
-
-
-
     @Override
     @Transactional
     public void addProductToCart(Cart cart, PizzaDTO pizzaDTO) {
 
-        if (!cartDetailsRepository.findByPizzaIdAndCartAndSize(pizzaDTO.getId(), cart, pizzaDTO.getSize()).isEmpty()){
+        if (!cartDetailsRepository.findByPizzaIdAndCartAndSize(pizzaDTO.getId(), cart, pizzaDTO.getSize()).isEmpty()) {
             CartDetails cartDetails = cartDetailsRepository.findByPizzaIdAndCartAndSize(
                     pizzaDTO.getId(), cart, pizzaDTO.getSize()).get(0);
 
@@ -94,11 +78,11 @@ public class CartServiceImpl implements CartService {
         cartDetails.setSize(pizzaDTO.getSize());
         cartDetails.setAmount(pizzaDTO.getAmount());
 
-        if(pizzaDTO.getSize() == Size.SMALL){
+        if (pizzaDTO.getSize() == Size.SMALL) {
             cartDetails.setPrice(pizza.getPriceSmall());
-        }else if(pizzaDTO.getSize() == Size.MEDIUM){
+        } else if (pizzaDTO.getSize() == Size.MEDIUM) {
             cartDetails.setPrice(pizza.getPriceMedium());
-        }else if(pizzaDTO.getSize() == Size.LARGE){
+        } else if (pizzaDTO.getSize() == Size.LARGE) {
             cartDetails.setPrice(pizza.getPriceLarge());
         }
 
@@ -114,7 +98,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public CartDTO getBucketByUser(String name) {
         User user = customUserService.findUserByFullName(name);
-        if(user == null || user.getCart() == null){
+        if (user == null || user.getCart() == null) {
             return new CartDTO();
         }
         CartDTO cartDTO = new CartDTO();
@@ -129,47 +113,17 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional
-    public void deletePizzaFromCart(Long id,String name){
-//        User user = customUserService.findUserByFullName(name);
-//        if(user == null || user.getCart() == null){
-//            return new CartDTO();
-//        }
-//        CartDTO cartDTO = new CartDTO();
-//        List<CartDetails> pizzas = user.getCart().getCartDetails();
-//        for(CartDetails cartDetails : pizzas){
-//            if(cartDetails.getId() == id){
-//                pizzas.remove(cartDetails);
-//            }
-//        }
-//        user.getCart().getCartDetails().clear();
-//        user.getCart().setCartDetails(pizzas);
-//
-//        Map<Long, CartDetailsDTO> mapByPizzaId = new HashMap<>();
-//        List<CartDetails> p = user.getCart().getCartDetails();
-//        for(CartDetails pizza : p){
-//            CartDetailsDTO details = mapByPizzaId.get(pizza.getId());
-//            if(details == null){
-//                mapByPizzaId.put(pizza.getId(), new CartDetailsDTO(pizza));
-//            }else{
-//                details.setAmount(details.getAmount());
-//                details.setSum(details.getSum() + Double.parseDouble(String.valueOf(pizza.getPrice())));
-//            }
-//        }
-//
-//        cartDTO.setCartDetails(new ArrayList<>(mapByPizzaId.values()));
-//        cartDTO.aggregate();
-//        return cartDTO;
-
+    public void deletePizzaFromCart(Long id, String name) {
         User user = customUserService.findUserByFullName(name);
         Cart cart = user.getCart();
 
-        if(cart == null || cart.getCartDetails().isEmpty()){
+        if (cart == null || cart.getCartDetails().isEmpty()) {
             return;
         }
 
         List<CartDetails> cartDetailsList = cart.getCartDetails();
-        for (CartDetails cartDetails: cartDetailsList){
-            if (cartDetails.getId() == id){
+        for (CartDetails cartDetails : cartDetailsList) {
+            if (cartDetails.getId() == id) {
                 cartDetailsList.remove(cartDetails);
                 cartDetails.setCart(null);
                 break;
@@ -181,11 +135,11 @@ public class CartServiceImpl implements CartService {
 
     }
 
-    public List<CartDetailsDTO> getCartDetailsDTOByCart(Cart cart){
+    public List<CartDetailsDTO> getCartDetailsDTOByCart(Cart cart) {
 
         List<CartDetails> pizzas = cart.getCartDetails();
         List<CartDetailsDTO> cartDetailsDTOS = new ArrayList<>();
-        for(CartDetails cartDetails : pizzas){
+        for (CartDetails cartDetails : pizzas) {
 
             CartDetailsDTO details = new CartDetailsDTO();
             details.setAmount(cartDetails.getAmount());
@@ -204,11 +158,11 @@ public class CartServiceImpl implements CartService {
     @Transactional
     public void commitBucketToOrder(String name) {
         User user = customUserService.findUserByFullName(name);
-        if(user == null){
+        if (user == null) {
             throw new RuntimeException("User not found");
         }
         Cart cart = user.getCart();
-        if(cart == null || cart.getCartDetails().isEmpty()){
+        if (cart == null || cart.getCartDetails().isEmpty()) {
             return;
         }
 
@@ -219,7 +173,7 @@ public class CartServiceImpl implements CartService {
         List<CartDetails> cartDetailsList = cart.getCartDetails();
         double total = 0;
 
-        for (CartDetails cartDetails: cartDetailsList){
+        for (CartDetails cartDetails : cartDetailsList) {
             OrderDetails orderDetails = new OrderDetails();
 
             orderDetails.setOrder(order);

@@ -29,10 +29,4 @@ public class CartDTO {
                 .mapToDouble(Double::doubleValue)
                 .sum();
     }
-
-
-
-
-
-
 }

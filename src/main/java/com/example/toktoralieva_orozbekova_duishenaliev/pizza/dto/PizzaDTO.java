@@ -5,8 +5,6 @@ import com.example.toktoralieva_orozbekova_duishenaliev.pizza.model.enums.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 @Data
 @NoArgsConstructor
 public class PizzaDTO {

@@ -1,13 +1,10 @@
 package com.example.toktoralieva_orozbekova_duishenaliev.pizza.dto;
 
 
-import com.example.toktoralieva_orozbekova_duishenaliev.pizza.model.Pizza;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor

@@ -4,7 +4,6 @@ package com.example.toktoralieva_orozbekova_duishenaliev.pizza.controller;
 import com.example.toktoralieva_orozbekova_duishenaliev.pizza.model.Pizza;
 import com.example.toktoralieva_orozbekova_duishenaliev.pizza.services.CartService;
 import com.example.toktoralieva_orozbekova_duishenaliev.pizza.services.PizzaService;
-import com.example.toktoralieva_orozbekova_duishenaliev.pizza.services.SmmpService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,11 +24,11 @@ public class MainController {
     }
 
     @RequestMapping({"", "/"})
-    public String index(Model model, HttpSession httpSession){
+    public String index(Model model, HttpSession httpSession) {
         List<Pizza> pizzas = pizzaService.getListOfAllPizza();
         List<Pizza> enablePizzas = new ArrayList<>();
-        for(Pizza pizza : pizzas){
-            if(pizza.getEnabled() == 1){
+        for (Pizza pizza : pizzas) {
+            if (pizza.getEnabled() == 1) {
                 enablePizzas.add(pizza);
             }
         }
@@ -39,12 +38,12 @@ public class MainController {
     }
 
     @RequestMapping("/login")
-    public String login(){
+    public String login() {
         return "login";
     }
 
     @RequestMapping("/login-error")
-    public String loginError(Model model){
+    public String loginError(Model model) {
         model.addAttribute("loginError", true);
         return "login";
     }

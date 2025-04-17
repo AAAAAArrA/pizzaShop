@@ -25,10 +25,10 @@ public class CartController {
     }
 
     @GetMapping
-    public String getCart(Model model, Principal principal){
-        if(principal == null){
+    public String getCart(Model model, Principal principal) {
+        if (principal == null) {
             model.addAttribute("cart", new CartDTO());
-        }else {
+        } else {
             CartDTO cartDTO = cartService.getBucketByUser(principal.getName());
             model.addAttribute("cart", cartDTO);
         }
@@ -36,9 +36,9 @@ public class CartController {
     }
 
     @PostMapping
-    public String createOrder(Principal principal){
+    public String createOrder(Principal principal) {
         System.out.println("test");
-        if(principal != null){
+        if (principal != null) {
             cartService.commitBucketToOrder(principal.getName());
 
         }
@@ -46,7 +46,7 @@ public class CartController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deletePizzaFromCart(@PathVariable Long id, Principal principal){
+    public String deletePizzaFromCart(@PathVariable Long id, Principal principal) {
         cartService.deletePizzaFromCart(id, principal.getName());
         return "redirect:/cart";
     }

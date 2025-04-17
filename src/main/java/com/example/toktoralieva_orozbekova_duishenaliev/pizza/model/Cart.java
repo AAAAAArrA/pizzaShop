@@ -1,8 +1,5 @@
 package com.example.toktoralieva_orozbekova_duishenaliev.pizza.model;
 
-
-
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +12,7 @@ import java.util.List;
 @Table(name = "cart")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Cart extends BaseEntity{
+public class Cart extends BaseEntity {
 
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn

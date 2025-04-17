@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import java.math.BigDecimal;
 
 @Service
-public class SmmpServiceImpl implements SmmpService{
+public class SmmpServiceImpl implements SmmpService {
 
     @Value("${my.smmp.url}")
     String myUrl;
@@ -22,17 +22,15 @@ public class SmmpServiceImpl implements SmmpService{
     String plainCreds;
 
 
-
-
     public PayActionResponseDTO doAction(String token, String customer, BigDecimal amount) {
 
         PayActionResponseDTO payActionResponse =
                 new PayActionResponseDTO().payment(false).description("unbekanntes Problem. Transfer nicht erfolgreich");
 
-        return smmpAccountCommunication(token, customer,amount, payActionResponse);
+        return smmpAccountCommunication(token, customer, amount, payActionResponse);
     }
 
-    private PayActionResponseDTO smmpAccountCommunication(String token, String customer,BigDecimal amount, PayActionResponseDTO payActionResponse) {
+    private PayActionResponseDTO smmpAccountCommunication(String token, String customer, BigDecimal amount, PayActionResponseDTO payActionResponse) {
 
 
         String uriReturn;
@@ -48,7 +46,7 @@ public class SmmpServiceImpl implements SmmpService{
         HttpEntity<String> request = new HttpEntity<String>(headers);
 
 
-        switch (token){
+        switch (token) {
             case "transfer":
                 headers.setContentType(MediaType.APPLICATION_JSON);
                 TransferDTO transferDTO = new TransferDTO(amount);
@@ -71,13 +69,7 @@ public class SmmpServiceImpl implements SmmpService{
         //description
         payActionResponse.description(accountResponse.getCode());
 
-        if (response.getStatusCode().equals(HttpStatus.OK))
-        {
-            payActionResponse.payment(true);
-        }
-        else {
-            payActionResponse.payment(false);
-        }
+        payActionResponse.payment(response.getStatusCode().equals(HttpStatus.OK));
         return payActionResponse;
     }
 

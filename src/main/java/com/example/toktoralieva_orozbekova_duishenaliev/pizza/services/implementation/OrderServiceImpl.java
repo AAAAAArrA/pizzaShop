@@ -1,11 +1,10 @@
 package com.example.toktoralieva_orozbekova_duishenaliev.pizza.services.implementation;
 
-
+import com.example.toktoralieva_orozbekova_duishenaliev.pizza.model.Order;
 import com.example.toktoralieva_orozbekova_duishenaliev.pizza.model.User;
 import com.example.toktoralieva_orozbekova_duishenaliev.pizza.repositories.OrderRepository;
 import com.example.toktoralieva_orozbekova_duishenaliev.pizza.services.CustomUserService;
 import com.example.toktoralieva_orozbekova_duishenaliev.pizza.services.OrderService;
-import com.example.toktoralieva_orozbekova_duishenaliev.pizza.model.Order;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -27,13 +26,6 @@ public class OrderServiceImpl implements OrderService {
     public void save(Order order) {
         orderRepository.save(order);
     }
-
-//    @Override
-//    public Page<Order> getPaginatedOrdersBuUser(String name, int pageNo, int pageSize) {
-//        User user = customUserService.findUserByFullName(name);
-//        List<Order> orderList = orderRepository.findAllByUserId(user.getId());
-//        return null;
-//    }
 
     @Override
     public Page<Order> getAllPaginatedOrders(int pageNo, int pageSize) {

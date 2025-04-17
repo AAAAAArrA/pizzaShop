@@ -1,6 +1,5 @@
 package com.example.toktoralieva_orozbekova_duishenaliev.pizza.model;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

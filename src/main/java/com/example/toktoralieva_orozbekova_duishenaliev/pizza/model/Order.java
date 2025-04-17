@@ -1,15 +1,11 @@
 package com.example.toktoralieva_orozbekova_duishenaliev.pizza.model;
 
-
-
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -18,7 +14,7 @@ import java.util.List;
 @Table(name = "orders")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Order extends BaseEntity{
+public class Order extends BaseEntity {
 
     @CreationTimestamp
     private LocalDateTime created;

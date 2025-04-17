@@ -1,6 +1,5 @@
 package com.example.toktoralieva_orozbekova_duishenaliev.pizza.model;
 
-
 import com.example.toktoralieva_orozbekova_duishenaliev.pizza.model.enums.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +17,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OrderDetails extends BaseEntity{
+public class OrderDetails extends BaseEntity {
 
 
     @ManyToOne
@@ -29,7 +28,7 @@ public class OrderDetails extends BaseEntity{
     @JoinColumn(name = "pizza_id")
     private Pizza pizza;
 
-    private Size  size;
+    private Size size;
     private int amount;
 
     private double price;

@@ -2,7 +2,10 @@ package com.example.toktoralieva_orozbekova_duishenaliev.pizza.dto;
 
 public class PayActionResponseDTO {
     private boolean payment;
-    private String token1 = "", token2 = "", token3 = "", description = "";
+    private final String token1 = "";
+    private final String token2 = "";
+    private final String token3 = "";
+    private String description = "";
 
     public PayActionResponseDTO() {
     }

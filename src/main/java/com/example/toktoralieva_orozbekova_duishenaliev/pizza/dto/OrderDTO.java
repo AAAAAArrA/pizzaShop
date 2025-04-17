@@ -19,5 +19,4 @@ public class OrderDTO {
     private double summ;
     private String address;
     private List<OrderDetailsDTO> details = new ArrayList<>();
-
 }

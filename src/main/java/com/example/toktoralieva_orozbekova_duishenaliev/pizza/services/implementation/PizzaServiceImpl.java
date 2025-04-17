@@ -16,7 +16,6 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -48,7 +47,7 @@ public class PizzaServiceImpl implements PizzaService {
     // если статус недоступен или 0, значит он не выходит, когда мы вызываем весь лист пицц
     @Override
     public void deletePizza(Long id) {
-        Pizza pizza =pizzaRepository.getById(id);
+        Pizza pizza = pizzaRepository.getById(id);
         pizza.setEnabled(0);
         pizzaRepository.save(pizza);
     }
@@ -65,7 +64,6 @@ public class PizzaServiceImpl implements PizzaService {
     }
 
 
-
     // Добавляет пиццу в корзину, если у нашего пользователя еще нет корзины, привязанной к нему, то создается
     // новая корзина
     @Transactional
@@ -74,7 +72,7 @@ public class PizzaServiceImpl implements PizzaService {
         User user = customUserService.findUserByFullName(name);
         Cart cart = user.getCart();
         System.out.println(cart);
-        if(cart == null){
+        if (cart == null) {
             cart = new Cart();
 
             cart.setCartDetails(

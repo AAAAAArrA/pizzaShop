@@ -46,15 +46,16 @@ public class CustomUserServiceImpl implements CustomUserService {
     }
 
     @Override
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
     @Override
     public boolean save(UserDTO userDTO) {
-        if(!Objects.equals(userDTO.getPassword(), userDTO.getPassword())){
+        if (!Objects.equals(userDTO.getPassword(), userDTO.getPassword())) {
             throw new RuntimeException("Password is not equals");
-        }User user = User.builder()
+        }
+        User user = User.builder()
                 .login(userDTO.getLogin())
                 .password(passwordEncoder.encode(userDTO.getPassword()))
                 .role(Role.CLIENT)
@@ -66,7 +67,7 @@ public class CustomUserServiceImpl implements CustomUserService {
 
     @Override
     public boolean saveAdmin(UserDTO userDTO) {
-        if(!Objects.equals(userDTO.getPassword(), userDTO.getPasswordMatching())){
+        if (!Objects.equals(userDTO.getPassword(), userDTO.getPasswordMatching())) {
             throw new RuntimeException("Password is not equals");
         }
         User user = User.builder()
@@ -106,16 +107,16 @@ public class CustomUserServiceImpl implements CustomUserService {
     @Transactional
     public void updateProfile(UserDTO dto) {
         User savedUser = userRepository.findByLogin(dto.getLogin());
-        if(savedUser == null){
+        if (savedUser == null) {
             throw new RuntimeException("User not found " + dto.getLogin());
         }
         boolean isChanged = false;
 
-        if(dto.getPassword() != null && !dto.getPassword().isEmpty()){
+        if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
             savedUser.setPassword(passwordEncoder.encode(dto.getPassword()));
             isChanged = true;
         }
-        if(isChanged){
+        if (isChanged) {
             userRepository.save(savedUser);
         }
 

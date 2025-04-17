@@ -19,15 +19,8 @@ public class OrderController {
     }
 
     @GetMapping("/history")
-    public String getOrdersByUser(Model model, Principal principal){
+    public String getOrdersByUser(Model model, Principal principal) {
         model.addAttribute("orders", orderService.getOrderByUser(principal.getName()));
         return "orders_history";
     }
-//
-//    @GetMapping("/history")
-//    public String viewOrderHistory(Model model, Principal principal) {
-//        List<Order> orders = orderService.getOrdersByUser(principal.getName());
-//        model.addAttribute("orders", orders);
-//        return "orders_history";
-//    }
 }

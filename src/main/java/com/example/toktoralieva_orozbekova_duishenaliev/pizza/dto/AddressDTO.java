@@ -1,10 +1,8 @@
 package com.example.toktoralieva_orozbekova_duishenaliev.pizza.dto;
 
 import com.example.toktoralieva_orozbekova_duishenaliev.pizza.model.DeliveryAddress;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @Builder
@@ -14,8 +12,6 @@ public class AddressDTO {
     private String houseNumber;
     private String town;
     private String postalCode;
-
-    // Конструкторы
 
     public AddressDTO() {
     }
